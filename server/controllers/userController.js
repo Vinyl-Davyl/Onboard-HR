@@ -1,6 +1,7 @@
 // ditching try-catch blocks and using express-async-handlers
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 
 // Register a new user function
 const registerUser = asyncHandler(async (req, res) => {
@@ -24,10 +25,16 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Email already exist");
   }
 
+  // Encrypt password before saving to DB
+  //   const salt = await bcrypt.genSalt(10);
+  //   const hashedPassword = await bcrypt.hash(password, salt);
+
   // Creat new user
   const user = await User.create({
     name,
     email,
+    // point to hashed passwrd instead of raw
+    //password: hashedPassword,
     password,
   });
 

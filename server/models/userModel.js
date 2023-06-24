@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema(
   {
@@ -22,7 +23,8 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add a paaword"],
       minLenght: [6, "Password must be up to 6 characters"],
-      maxLenght: [23, "Password must not exceed 23 characters"],
+      //   would validate on the frontend due to bcrypt exceeding 23 characters
+      //   maxLenght: [23, "Password must not exceed 23 characters"],
     },
     photo: {
       type: String,
@@ -45,6 +47,21 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+// Encrypt pasword before saving to DB - before saving any piece of data, executes function to hash password(so incase of registering, change password etc)
+userSchema.pre("save", async function (next) {
+  // If password field is not modified as in case of edit, go to next step
+  if (!this.isModified("password")) {
+    return next();
+  }
+
+  // Hash password
+  const salt = await bcrypt.genSalt(10);
+  // pointing to password inside this file with this.password
+  const hashedPassword = await bcrypt.hash(this.password, salt);
+  this.password = hashedPassword;
+  next();
+});
 
 // "User" term being used as save in mongoDB for this database model
 const User = mongoose.model("User", userSchema);
