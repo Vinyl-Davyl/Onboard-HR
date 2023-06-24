@@ -9,7 +9,7 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
 
-// Register a new user function
+// Register User
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -75,6 +75,12 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Login User
+const loginUser = asyncHandler(async (req, res) => {
+  res.send("Login User");
+});
+
 module.exports = {
   registerUser,
+  loginUser,
 };
