@@ -46,5 +46,6 @@ const userSchema = mongoose.Schema(
   }
 );
 
+// "User" term being used as save in mongoDB for this database model
 const User = mongoose.model("User", userSchema);
 module.exports = User;
