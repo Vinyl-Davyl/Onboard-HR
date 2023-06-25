@@ -127,7 +127,24 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Logout User -- *main
+const logoutUser = asyncHandler(async (req, res) => {
+  // Expire the cookie(hence the sue of empty string instead of save token)
+  res.cookie("token", "", {
+    path: "/",
+    httpOnly: true,
+    expires: new Date(0),
+    sameSite: "none",
+    secure: true,
+  });
+
+  return res.status(200).json({
+    message: "Logout Successful",
+  });
+});
+
 module.exports = {
   registerUser,
   loginUser,
+  logoutUser,
 };
