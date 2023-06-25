@@ -5,6 +5,7 @@ const {
   loginUser,
   logoutUser,
   getUser,
+  loginStatus,
 } = require("../controllers/userController");
 const protect = require("../middleWare/authMiddleware");
 
@@ -13,5 +14,6 @@ router.post("/login", loginUser);
 router.get("/logout", logoutUser);
 // "protect" middleware in this route, gives getUser route access to "user" info "req.user = user"
 router.get("/getuser", protect, getUser);
+router.get("/loggedin", loginStatus);
 
 module.exports = router;
