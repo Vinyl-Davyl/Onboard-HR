@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
+const employeeRoute = require("./routes/employeeRoute");
 const errorHandler = require("./middleWare/errorMiddleware");
 const cookieParser = require("cookie-parser");
 
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 
 // Routes Middleware(all having prefix "api/users" then /register)
 app.use("/api/users", userRoute);
+app.use("/api/employees", employeeRoute);
 
 // Routes
 app.get("/", (req, res) => {
