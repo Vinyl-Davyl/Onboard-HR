@@ -1,9 +1,9 @@
 <h1 align="center">
-   Onboard-Base
+   Onboard-xFalcon
 </h1>
 
 <p align="center">
-  <i align="center">From Onboarding to Offboarding, streamline your HR processes with OnboardBaseHR, all-in-one employee management software.⚙️</i>
+  <i align="center">From Onboarding to Offboarding, streamline your HR processes with Onboard-xFalcon HR, all-in-one employee management software.⚙️</i>
 </p>
 
 <h4 align="center">
