@@ -1,0 +1,12 @@
+// Guide for the Forgot Password Process
+#1. When the user clicks on "Forgot Password"
+#2. Generate a reset token (string) and save it to the database
+#3. Send the reset token to the user's email as a clickable link
+#4. When the user clicks the link, compare the reset token from the link with the one stored in the database
+#5. If they match, allow the user to reset their password
+
+// Steps for the Forgot Password Feature
+#1. Implement the route for handling "Forgot Password" requests
+#2. Define a Token Model to store and manage reset tokens
+#3. Create a function to send emails containing the reset token to users
+#4. Implement a controller function to handle the password reset logic 
