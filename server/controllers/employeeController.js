@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Employee = require("../models/employeeModel");
+const { fileSizeFormatter } = require("../utils/fileUpload");
 
 // Create Employee *--main (Saving to database first)
 const createEmployee = asyncHandler(async (req, res) => {
@@ -12,7 +13,16 @@ const createEmployee = asyncHandler(async (req, res) => {
     throw new Error("Please fill in all required fields");
   }
 
-  // Manage Image Upload
+  // Handle Image Upload
+  let fileData = {}
+  if (req.file) {
+    fileData = {
+      fileName: req.file.originalname,
+      filePath: req.file.path,
+      fileType: req.file.mimetype,
+      fileSize: fileSizeFormatter(req.file.size, 2),
+    };
+  }
 
   // Create Employee
   const employee = await Employee.create({
@@ -24,6 +34,7 @@ const createEmployee = asyncHandler(async (req, res) => {
     quantity,
     price,
     description,
+    image: fileData,
   });
 
   res.status(201).json(employee);
