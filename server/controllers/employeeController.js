@@ -57,7 +57,7 @@ const createEmployee = asyncHandler(async (req, res) => {
 // Get all Employees *--main
 const getEmployees = asyncHandler(async (req, res) => {
   // Finds all employee on DB
-  //const products = await Employee.find()
+  //const employees = await Employee.find()
 
   //Specific user
   const employees = await Employee.find({ user: req.user.id }).sort(
@@ -69,11 +69,13 @@ const getEmployees = asyncHandler(async (req, res) => {
 // Get a single Employees *--main
 const getEmployee = asyncHandler(async (req, res) => {
   const employee = await Employee.findById(req.params.id);
+  //   If employee doesn't exist
   if (!employee) {
     res.status(404);
     throw new Error("Employee not found");
   }
 
+  //   Match employee
   if (employee.user.toString() !== req.user.id) {
     res.status(404);
     throw new Error("User not authorized");
@@ -81,8 +83,27 @@ const getEmployee = asyncHandler(async (req, res) => {
   res.status(200).json(employee);
 });
 
+// Delete a single Employees *--main
+const deleteEmployee = asyncHandler(async (req, res) => {
+  const employee = await Employee.findById(req.params.id);
+  // if employee doesnt exist
+  if (!employee) {
+    res.status(404);
+    throw new Error("Employee not found");
+  }
+  // Match employee
+  if (employee.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  await Employee.deleteOne({ _id: req.params.id });
+  res.status(200).json({ message: "Employee deleted." });
+});
+
 module.exports = {
   createEmployee,
   getEmployees,
   getEmployee,
+  deleteEmployee,
 };
