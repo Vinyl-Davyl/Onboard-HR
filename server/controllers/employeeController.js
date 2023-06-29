@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Employee = require("../models/employeeModel");
 const { fileSizeFormatter } = require("../utils/fileUpload");
+const cloudinary = require("cloudinary").v2;
 
 // Create Employee *--main (Saving to database first)
 const createEmployee = asyncHandler(async (req, res) => {
@@ -14,11 +15,24 @@ const createEmployee = asyncHandler(async (req, res) => {
   }
 
   // Handle Image Upload
-  let fileData = {}
+  let fileData = {};
   if (req.file) {
+    // Save image to cloudinary before uploading to fileData
+    let uploadedFile;
+    try {
+      uploadedFile = await cloudinary.uploader.upload(req.file.path, {
+        folder: "Onboard HR",
+        resource_type: "image",
+      });
+    } catch (error) {
+      res.status(500);
+      throw new Error("Image could not be uploaded");
+    }
+
     fileData = {
       fileName: req.file.originalname,
-      filePath: req.file.path,
+      //   filePath: req.file.path,(using cloudinary file path instead)
+      filePath: uploadedFile.secure_url,
       fileType: req.file.mimetype,
       fileSize: fileSizeFormatter(req.file.size, 2),
     };
