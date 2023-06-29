@@ -8,6 +8,7 @@ const userRoute = require("./routes/userRoute");
 const employeeRoute = require("./routes/employeeRoute");
 const errorHandler = require("./middleWare/errorMiddleware");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const app = express();
 
@@ -16,6 +17,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
+
+// Pointing to the uploads folder on uploads
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes Middleware(all having prefix "api/users" then /register)
 app.use("/api/users", userRoute);
