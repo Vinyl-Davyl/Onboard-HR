@@ -154,7 +154,8 @@ const updateEmployee = asyncHandler(async (req, res) => {
       quantity,
       price,
       description,
-      image: fileData || employee.image,
+      // avoiding image delete while updating(if the object key for img empty, used what was prev saved)
+      image: Object.keys(fileData).length === 0 ? employee?.image : fileData,
     },
     {
       new: true,
