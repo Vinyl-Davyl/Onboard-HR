@@ -54,4 +54,35 @@ const createEmployee = asyncHandler(async (req, res) => {
   res.status(201).json(employee);
 });
 
-module.exports = { createEmployee };
+// Get all Employees *--main
+const getEmployees = asyncHandler(async (req, res) => {
+  // Finds all employee on DB
+  //const products = await Employee.find()
+
+  //Specific user
+  const employees = await Employee.find({ user: req.user.id }).sort(
+    "-createdAt"
+  );
+  res.status(200).json(employees);
+});
+
+// Get a single Employees *--main
+const getEmployee = asyncHandler(async (req, res) => {
+  const employee = await Employee.findById(req.params.id);
+  if (!employee) {
+    res.status(404);
+    throw new Error("Employee not found");
+  }
+
+  if (employee.user.toString() !== req.user.id) {
+    res.status(404);
+    throw new Error("User not authorized");
+  }
+  res.status(200).json(employee);
+});
+
+module.exports = {
+  createEmployee,
+  getEmployees,
+  getEmployee,
+};
