@@ -91,7 +91,7 @@ const deleteEmployee = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Employee not found");
   }
-  // Match employee
+  // Match employee to its user
   if (employee.user.toString() !== req.user.id) {
     res.status(401);
     throw new Error("User not authorized");
@@ -101,9 +101,74 @@ const deleteEmployee = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Employee deleted." });
 });
 
+// Update Employees *--main
+const updateEmployee = asyncHandler(async (req, res) => {
+  // Destructuring what's needed first, Img not compulsory
+  const { name, category, quantity, price, description } = req.body;
+  const { id } = req.params;
+
+  const employee = await Employee.findById(id);
+
+  //    If employee doesnt exist
+  if (!employee) {
+    res.status(404);
+    throw new Error("Employee not found");
+  }
+
+  // Match employee to its user
+  if (employee.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  // Handle Image Upload
+  let fileData = {};
+  if (req.file) {
+    // Save image to cloudinary before uploading to fileData
+    let uploadedFile;
+    try {
+      uploadedFile = await cloudinary.uploader.upload(req.file.path, {
+        folder: "Onboard HR",
+        resource_type: "image",
+      });
+    } catch (error) {
+      res.status(500);
+      throw new Error("Image could not be uploaded");
+    }
+
+    fileData = {
+      fileName: req.file.originalname,
+      //   filePath: req.file.path,(using cloudinary file path instead)
+      filePath: uploadedFile.secure_url,
+      fileType: req.file.mimetype,
+      fileSize: fileSizeFormatter(req.file.size, 2),
+    };
+  }
+
+  // Update Employee, (findByIdAndUpdate taking in 3 parameters, id, what is to be updated, validators)
+  const updatedEmployee = await Employee.findByIdAndUpdate(
+    { _id: id },
+    {
+      name,
+      category,
+      quantity,
+      price,
+      description,
+      image: fileData || employee.image,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json(updatedEmployee);
+});
+
 module.exports = {
   createEmployee,
   getEmployees,
   getEmployee,
   deleteEmployee,
+  updateEmployee,
 };
