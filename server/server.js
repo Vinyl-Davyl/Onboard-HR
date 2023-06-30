@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
 const employeeRoute = require("./routes/employeeRoute");
+const contactRoute = require("./routes/contactRoute");
 const errorHandler = require("./middleWare/errorMiddleware");
 const cookieParser = require("cookie-parser");
 const path = require("path");
@@ -25,6 +26,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Routes Middleware(all having prefix "api/users" then /register)
 app.use("/api/users", userRoute);
 app.use("/api/employees", employeeRoute);
+app.use("/api/contactus", contactRoute);
 
 // Routes
 app.get("/", (req, res) => {
