@@ -1,10 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./auth.module.scss";
 import { TiUserAddOutline } from "react-icons/ti";
 import Card from "../../components/card/Card";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { registerUser, validateEmail } from "../../services/authService";
+
+const initialState = {
+  name: "",
+  email: "",
+  password: "",
+  password2: "",
+};
 
 const Register = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState(initialState);
+
+  // Destructuring all in form
+  const { name, email, password, password2 } = formData;
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const register = async (e) => {
+    e.preventDefault();
+
+    if (!name || !email || !password) {
+      return toast.error("Please fill in all fields");
+    }
+    if (password.length < 6) {
+      return toast.error("Passwords must be up to 6 characters");
+    }
+    if (!validateEmail(email)) {
+      return toast.error("Please enter a valid email");
+    }
+    if (password !== password2) {
+      return toast.error("Passwords must be the same");
+    }
+
+    const userData = {
+      name,
+      email,
+      password,
+    };
+    setIsLoading(true);
+    try {
+      const data = await registerUser(userData);
+      console.log(data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className={`container ${styles.auth}`}>
       <Card>
@@ -14,20 +66,38 @@ const Register = () => {
           </div>
           <h2>Register</h2>
 
-          <form>
-            <input type="text" placeholder="Name" required name="name" />
-            <input type="email" placeholder="Email" required name="email" />
+          <form onSubmit={register}>
+            <input
+              type="text"
+              placeholder="Name"
+              required
+              name="name"
+              value={name}
+              onChange={handleInputChange}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              required
+              name="email"
+              value={email}
+              onChange={handleInputChange}
+            />
             <input
               type="password"
               placeholder="Password"
               required
               name="password"
+              value={password}
+              onChange={handleInputChange}
             />
             <input
               type="password"
               placeholder="Confirm Password"
               required
-              name="password"
+              name="password2"
+              value={password2}
+              onChange={handleInputChange}
             />
             <button type="submit" className="--btn --btn-primary --btn-block">
               Register
