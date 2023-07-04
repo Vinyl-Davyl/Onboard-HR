@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import styles from "./auth.module.scss";
 import { TiUserAddOutline } from "react-icons/ti";
 import Card from "../../components/card/Card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { registerUser, validateEmail } from "../../services/authService";
+import { useDispatch } from "react-redux";
+//Set login to true when use registers/logs in and set username
+import { SET_LOGIN, SET_NAME } from "../../redux/features/authSlice";
+
 
 const initialState = {
   name: "",
@@ -14,6 +18,8 @@ const initialState = {
 };
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); 
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState(initialState);
 
@@ -49,7 +55,10 @@ const Register = () => {
     setIsLoading(true);
     try {
       const data = await registerUser(userData);
-      console.log(data);
+    //   console.log(data);
+    await dispatch(SET_LOGIN(true));
+    await dispatch(SET_NAME(data.name));
+    navigate("/dashboard");
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
