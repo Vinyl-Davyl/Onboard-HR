@@ -18,7 +18,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://deployedurl.vercel.app"],
+    credentials: true,
+  })
+);
 
 // Pointing to the uploads folder on uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
