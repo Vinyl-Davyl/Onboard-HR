@@ -56,7 +56,7 @@ const Login = () => {
         userData
       );
       await dispatch(SET_LOGIN(true));
-      await dispatch(SET_NAME(response.name));
+      await dispatch(SET_NAME(response.data.name));
       navigate("/dashboard");
       setIsLoading(false);
 
