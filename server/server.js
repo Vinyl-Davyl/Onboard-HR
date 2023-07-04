@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
 // Error Middleware
 app.use(errorHandler);
 
-// Connect ot DB and start server
+// Connect to DB and start server
 const PORT = process.env.PORT || 5000;
 
 mongoose
