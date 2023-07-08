@@ -22,7 +22,7 @@ axios.defaults.withCredentials = true;
 function App() {
   const dispatch = useDispatch();
 
-  // getting login status
+  // getting login status, using from services
   useEffect(() => {
     async function loginStatus() {
       const status = await getLoginStatus();
