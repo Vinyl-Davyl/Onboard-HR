@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/auth/Login";
@@ -10,12 +11,25 @@ import Sidebar from "./components/sidebar/Sidebar";
 import axios from "axios";
 
 import { ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
+import { getLoginStatus } from "./services/authService";
+import { SET_LOGIN } from "./redux/features/authSlice";
 
 // enable save credentials accross entire app when making requests, skip adding const response = axios.get(``, userData, {withCredentials: true})
 axios.defaults.withCredentials = true;
 
 function App() {
+  const dispatch = useDispatch();
+
+  // getting login status
+  useEffect(() => {
+    async function loginStatus() {
+      const status = await getLoginStatus();
+      dispatch(SET_LOGIN(status));
+    }
+    loginStatus();
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <ToastContainer />
