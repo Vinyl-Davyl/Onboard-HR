@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { getLoginStatus } from "./services/authService";
 import { SET_LOGIN } from "./redux/features/authSlice";
+import AddEmployee from "./pages/addEmployee/AddEmployee";
 
 // enable save credentials accross entire app when making requests, skip adding const response = axios.get(``, userData, {withCredentials: true})
 axios.defaults.withCredentials = true;
@@ -46,6 +47,16 @@ function App() {
             <Sidebar>
               <Layout>
                 <Dashboard />
+              </Layout>
+            </Sidebar>
+          }
+        />
+        <Route
+          path="/add-employee"
+          element={
+            <Sidebar>
+              <Layout>
+                <AddEmployee />
               </Layout>
             </Sidebar>
           }
