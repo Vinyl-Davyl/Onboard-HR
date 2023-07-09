@@ -13,7 +13,7 @@ const initialState = {
 };
 
 // Create New Employeee
-const createEmployeee = createAsyncThunk(
+export const createEmployeee = createAsyncThunk(
   // giving it a name
   "employeees/create",
   async (formData, thunkAPI) => {
@@ -65,5 +65,8 @@ const employeeSlice = createSlice({
 });
 
 export const { CALC_STORE_VALUE } = employeeSlice.actions;
+
+// exporting isLoading state to be used on addEmployee(& any part of app) when loading
+export const selectIsLoading = (state) => state.employee.isLoading;
 
 export default employeeSlice.reducer;
