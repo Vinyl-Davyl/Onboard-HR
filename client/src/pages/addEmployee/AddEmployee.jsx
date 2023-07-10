@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import EmployeeForm from "../../components/employeeForm/EmployeeForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  createEmployeee,
+  createEmployee,
   selectIsLoading,
 } from "../../redux/features/employee/employeeSlice";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
 
 const initialState = {
   name: "",
@@ -14,7 +15,7 @@ const initialState = {
   price: "",
 };
 
-const EmployeeForm = () => {
+const AddEmployee = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ const EmployeeForm = () => {
   };
 
   // save employee to DB
-  const saveEmployee = async () => {
+  const saveEmployee = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
@@ -64,13 +65,14 @@ const EmployeeForm = () => {
 
     console.log(...formData);
 
-    await dispatch(createEmployeee(formData));
+    await dispatch(createEmployee(formData));
 
     navigate("/dashboard");
   };
 
   return (
     <div>
+      {isLoading && <Loader />}
       <h3 className="--mt">Add New Employee</h3>
       <EmployeeForm
         employee={employee}
@@ -86,4 +88,4 @@ const EmployeeForm = () => {
   );
 };
 
-export default EmployeeForm;
+export default AddEmployee;
