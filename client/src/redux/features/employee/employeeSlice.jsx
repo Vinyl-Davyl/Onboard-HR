@@ -32,6 +32,26 @@ export const createEmployee = createAsyncThunk(
   }
 );
 
+// Get all Employeee
+export const getEmployees = createAsyncThunk(
+  // giving it a name
+  "employeees/getAll",
+  async (_, thunkAPI) => {
+    try {
+      return await employeeService.getEmployees();
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const employeeSlice = createSlice({
   name: "employee",
   initialState,
@@ -56,12 +76,31 @@ const employeeSlice = createSlice({
       state.employees.push(action.payload);
       toast.success("Employee added successfully");
     });
-    builder.addCase(createEmployee.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.message = action.payload;
-      toast.error(action.payload);
-    });
+    builder
+      .addCase(createEmployee.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload);
+      })
+
+      // get employees
+      .addCase(getEmployees.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getEmployees.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        console.log(action.payload);
+        state.employees = action.payload;
+      })
+      .addCase(getEmployees.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload);
+      });
   },
 });
 

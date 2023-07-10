@@ -11,8 +11,15 @@ const createEmployee = async (formData) => {
   return response.data;
 };
 
+// Get all Employees
+const getEmployees = async () => {
+  const response = await axios.get(API_URL);
+  return response.data;
+};
+
 const employeeService = {
   createEmployee,
+  getEmployees,
 };
 
 // Alternatively
