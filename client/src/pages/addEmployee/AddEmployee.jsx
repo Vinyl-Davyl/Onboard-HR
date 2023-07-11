@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import EmployeeForm from "../../components/employeeForm/EmployeeForm";
+import EmployeeForm from "../../components/employee/employeeForm/EmployeeForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createEmployee,
