@@ -45,6 +45,7 @@ const EmployeeList = ({ employees, isLoading }) => {
                   <th>Action</th>
                 </tr>
               </thead>
+
               <tbody>
                 {employees.map((employee, index) => {
                   const { _id, name, category, salary, rating } = employee;
