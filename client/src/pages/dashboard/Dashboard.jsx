@@ -11,9 +11,11 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const employeeState = useSelector((state) => state.employee); // Get the entire employee state
 
-  const { employees, isLoading, isError, message } = employeeState;
+  const { employees, isLoading, isError, message } = useSelector(
+    (state) => state.employee
+  );
+
   useEffect(() => {
     if (isLoggedIn === true) {
       dispatch(getEmployees());

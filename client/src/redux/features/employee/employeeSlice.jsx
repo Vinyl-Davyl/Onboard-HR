@@ -15,7 +15,7 @@ const initialState = {
 // Create New Employeee
 export const createEmployee = createAsyncThunk(
   // giving it a name
-  "employeees/create",
+  "employees/create",
   async (formData, thunkAPI) => {
     try {
       return await employeeService.createEmployee(formData);
@@ -35,7 +35,7 @@ export const createEmployee = createAsyncThunk(
 // Get all Employeee
 export const getEmployees = createAsyncThunk(
   // giving it a name
-  "employeees/getAll",
+  "employees/getAll",
   async (_, thunkAPI) => {
     try {
       return await employeeService.getEmployees();
