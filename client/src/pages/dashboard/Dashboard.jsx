@@ -29,7 +29,7 @@ const Dashboard = () => {
   return (
     <div>
       <h2>Dashboard</h2>
-      <EmployeeList />
+      <EmployeeList employees={employees} isLoading={isLoading} />
     </div>
   );
 };

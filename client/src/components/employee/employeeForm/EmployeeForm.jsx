@@ -60,8 +60,8 @@ const EmployeeForm = ({
           <input
             type="text"
             placeholder="Employee Salary"
-            name="price"
-            value={employee?.price}
+            name="salary"
+            value={employee?.salary}
             onChange={handleInputChange}
           />
 
@@ -69,8 +69,8 @@ const EmployeeForm = ({
           <input
             type="text"
             placeholder="Employee Rating"
-            name="quantity"
-            value={employee?.quantity}
+            name="rating"
+            value={employee?.rating}
             onChange={handleInputChange}
           />
 

@@ -11,8 +11,8 @@ import Loader from "../../components/loader/Loader";
 const initialState = {
   name: "",
   category: "",
-  quantity: "",
-  price: "",
+  salary: "",
+  rating: "",
 };
 
 const AddEmployee = () => {
@@ -29,7 +29,7 @@ const AddEmployee = () => {
   const isLoading = useSelector(selectIsLoading);
 
   // destructuring employee data
-  const { name, category, price, quantity } = employee;
+  const { name, category, salary, rating } = employee;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -58,8 +58,8 @@ const AddEmployee = () => {
     formData.append("name", name);
     formData.append("sku", generateSKU(category));
     formData.append("category", category);
-    formData.append("quantity", quantity);
-    formData.append("price", price);
+    formData.append("salary", salary);
+    formData.append("rating", rating);
     formData.append("description", description);
     formData.append("image", employeeImage);
 
