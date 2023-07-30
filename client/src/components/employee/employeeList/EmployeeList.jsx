@@ -23,7 +23,7 @@ const EmployeeList = ({ employees, isLoading }) => {
             <h3>Employee List</h3>
           </span>
           <span>
-            <h3>Search Employee</h3>
+            <h3>Search</h3>
           </span>
         </div>
 
