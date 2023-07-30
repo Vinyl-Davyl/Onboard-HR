@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../redux/features/authSlice";
 import { getEmployees } from "../../redux/features/employee/employeeSlice";
 import EmployeeList from "../../components/employee/employeeList/EmployeeList";
+import EmployeeSummary from "../../components/employee/employeeSummary/EmployeeSummary";
 
 const Dashboard = () => {
   // using redirect hook on session expiration
@@ -28,7 +29,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h2>Dashboard</h2>
+      <EmployeeSummary employees={employees} />
       <EmployeeList employees={employees} isLoading={isLoading} />
     </div>
   );
