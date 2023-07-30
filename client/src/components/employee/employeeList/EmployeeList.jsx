@@ -9,6 +9,7 @@ import {
   FILTER_EMPLOYEES,
   selectFilteredEmployees,
 } from "../../../redux/features/employee/filterSlice";
+import ReactPaginate from "react-paginate";
 
 const EmployeeList = ({ employees, isLoading }) => {
   const [search, setSearch] = useState("");
@@ -23,6 +24,30 @@ const EmployeeList = ({ employees, isLoading }) => {
     }
     return text;
   };
+
+  // Paginate Intro
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 2;
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+
+    // currentItems replaces filteredEmployees on map, hence adding filteredEmployees to useEffect here
+    setCurrentItems(filteredEmployees.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(filteredEmployees.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, filteredEmployees]);
+
+  const handlePageClick = (event) => {
+    const newOffset =
+      (event.selected * itemsPerPage) % filteredEmployees.length;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
+  };
+  //  Paginate Outro
 
   // give fileteredEmployee state on map of search employees, using reducer FILTER_EMPLOYEES
   useEffect(() => {
@@ -65,7 +90,7 @@ const EmployeeList = ({ employees, isLoading }) => {
               </thead>
 
               <tbody>
-                {filteredEmployees.map((employee, index) => {
+                {currentItems.map((employee, index) => {
                   const { _id, name, category, salary, rating } = employee;
                   return (
                     <tr key={_id}>
@@ -100,6 +125,21 @@ const EmployeeList = ({ employees, isLoading }) => {
             </table>
           )}
         </div>
+
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="Next"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          pageCount={pageCount}
+          previousLabel="Prev"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination"
+          pageLinkClassName="page-num"
+          previousLinkClassName="page-num"
+          nextLinkClassName="page-num"
+          activeLinkClassName="activePage"
+        />
       </div>
     </div>
   );
