@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { SpinnerImg } from "../../loader/Loader";
 import "./EmployeeList.scss";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { AiOutlineEye } from "react-icons/ai";
+import Search from "../../search/Search";
 
 const EmployeeList = ({ employees, isLoading }) => {
+  const [search, setSearch] = useState("");
+
   // shorten text function on long employee names
   const shortenText = (text, n) => {
     if (text.length > n) {
@@ -23,7 +26,10 @@ const EmployeeList = ({ employees, isLoading }) => {
             <h3>Employee List</h3>
           </span>
           <span>
-            <h3>Search</h3>
+            <Search
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </span>
         </div>
 
