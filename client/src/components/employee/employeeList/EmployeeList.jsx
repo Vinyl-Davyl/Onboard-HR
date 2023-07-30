@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SpinnerImg } from "../../loader/Loader";
 import "./EmployeeList.scss";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { AiOutlineEye } from "react-icons/ai";
 import Search from "../../search/Search";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  FILTER_EMPLOYEES,
+  selectFilteredEmployees,
+} from "../../../redux/features/employee/filterSlice";
 
 const EmployeeList = ({ employees, isLoading }) => {
   const [search, setSearch] = useState("");
+  const filteredEmployees = useSelector(selectFilteredEmployees);
+  const dispatch = useDispatch();
 
   // shorten text function on long employee names
   const shortenText = (text, n) => {
@@ -16,6 +23,11 @@ const EmployeeList = ({ employees, isLoading }) => {
     }
     return text;
   };
+
+  // give fileteredEmployee state on map of search employees, using reducer FILTER_EMPLOYEES
+  useEffect(() => {
+    dispatch(FILTER_EMPLOYEES({ employees, search }));
+  }, [employees, search, dispatch]);
 
   return (
     <div className="employee-list">
@@ -53,7 +65,7 @@ const EmployeeList = ({ employees, isLoading }) => {
               </thead>
 
               <tbody>
-                {employees.map((employee, index) => {
+                {filteredEmployees.map((employee, index) => {
                   const { _id, name, category, salary, rating } = employee;
                   return (
                     <tr key={_id}>
