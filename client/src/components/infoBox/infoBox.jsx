@@ -1,11 +1,11 @@
 import React from "react";
 import "./infoBox.scss";
 
-const infoBox = ({ bgColor, title, count, icon }) => {
+const InfoBox = ({ bgColor, title, count, icon }) => {
   return (
     <div className={`info-box ${bgColor}`}>
       <span className="info-icon --color-white">{icon}</span>
-      <span className="infor-text">
+      <span className="info-text">
         <p>{title}</p>
         <h4>{count}</h4>
       </span>
@@ -13,4 +13,4 @@ const infoBox = ({ bgColor, title, count, icon }) => {
   );
 };
 
-export default infoBox;
+export default InfoBox;
