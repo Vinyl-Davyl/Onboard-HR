@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-import EmployeeForm from "../../components/employeeForm/EmployeeForm";
+import EmployeeForm from "../../components/employee/employeeForm/EmployeeForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  createEmployeee,
+  createEmployee,
   selectIsLoading,
 } from "../../redux/features/employee/employeeSlice";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
 
 const initialState = {
   name: "",
   category: "",
-  quantity: "",
-  price: "",
+  salary: "",
+  rating: "",
 };
 
-const EmployeeForm = () => {
+const AddEmployee = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ const EmployeeForm = () => {
   const isLoading = useSelector(selectIsLoading);
 
   // destructuring employee data
-  const { name, category, price, quantity } = employee;
+  const { name, category, salary, rating } = employee;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,26 +52,27 @@ const EmployeeForm = () => {
   };
 
   // save employee to DB
-  const saveEmployee = async () => {
+  const saveEmployee = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
     formData.append("sku", generateSKU(category));
     formData.append("category", category);
-    formData.append("quantity", quantity);
-    formData.append("price", price);
+    formData.append("salary", salary);
+    formData.append("rating", rating);
     formData.append("description", description);
     formData.append("image", employeeImage);
 
     console.log(...formData);
 
-    await dispatch(createEmployeee(formData));
+    await dispatch(createEmployee(formData));
 
     navigate("/dashboard");
   };
 
   return (
     <div>
+      {isLoading && <Loader />}
       <h3 className="--mt">Add New Employee</h3>
       <EmployeeForm
         employee={employee}
@@ -86,4 +88,4 @@ const EmployeeForm = () => {
   );
 };
 
-export default EmployeeForm;
+export default AddEmployee;
