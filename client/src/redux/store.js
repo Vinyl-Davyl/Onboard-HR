@@ -5,6 +5,6 @@ import employeeReducer from "../redux/features/employee/employeeSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    employee: employeeReducer,
+    auth: employeeReducer,
   },
 });

@@ -24,14 +24,14 @@ const employeeSchema = mongoose.Schema(
       required: [true, "Please enter a category"],
       trim: true,
     },
-    salary: {
+    quantity: {
       type: String,
-      required: [true, "Please enter a salary amount"],
+      required: [true, "Please enter a quantity"],
       trim: true,
     },
-    rating: {
+    price: {
       type: String,
-      required: [true, "Please enter a rating"],
+      required: [true, "Please enter a price"],
       trim: true,
     },
     description: {
