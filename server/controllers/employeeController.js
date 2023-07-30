@@ -6,10 +6,10 @@ const cloudinary = require("cloudinary").v2;
 // Create Employee *--main (Saving to database first)
 const createEmployee = asyncHandler(async (req, res) => {
   // Destructuring what's needed first, Img not compulsory
-  const { name, sku, category, salary, rating, description } = req.body;
+  const { name, sku, category, quantity, price, description } = req.body;
 
   // Validation
-  if (!name || !sku || !category || !salary || !rating || !description) {
+  if (!name || !sku || !category || !quantity || !price || !description) {
     res.status(400);
     throw new Error("Please fill in all required fields");
   }
@@ -45,8 +45,8 @@ const createEmployee = asyncHandler(async (req, res) => {
     name,
     sku,
     category,
-    salary,
-    rating,
+    quantity,
+    price,
     description,
     image: fileData,
   });
@@ -104,7 +104,7 @@ const deleteEmployee = asyncHandler(async (req, res) => {
 // Update Employees *--main
 const updateEmployee = asyncHandler(async (req, res) => {
   // Destructuring what's needed first, Img not compulsory
-  const { name, category, salary, rating, description } = req.body;
+  const { name, category, quantity, price, description } = req.body;
   const { id } = req.params;
 
   const employee = await Employee.findById(id);
@@ -151,8 +151,8 @@ const updateEmployee = asyncHandler(async (req, res) => {
     {
       name,
       category,
-      salary,
-      rating,
+      quantity,
+      price,
       description,
       // avoiding image delete while updating(if the object key for img empty, used what was prev saved)
       image: Object.keys(fileData).length === 0 ? employee?.image : fileData,
