@@ -90,6 +90,19 @@ const employeeSlice = createSlice({
       }),
         (state.outOfService = count);
     },
+
+    CALC_CATEGORY(state, action) {
+      const employees = action.payload;
+      const array = [];
+      employees.map((item) => {
+        const { category } = item;
+
+        return array.push(category);
+      });
+      // look out for unique categories
+      const uniqueCategory = [...new Set(array)];
+      state.category = uniqueCategory;
+    },
   },
   // storing responses from createAsyncThunk
   extraReducers: (builder) => {
@@ -134,7 +147,8 @@ const employeeSlice = createSlice({
   },
 });
 
-export const { CALC_STORE_VALUE, CALC_OUTOFSERVICE } = employeeSlice.actions;
+export const { CALC_STORE_VALUE, CALC_OUTOFSERVICE, CALC_CATEGORY } =
+  employeeSlice.actions;
 
 // exporting isLoading state to be used on addEmployee(& any part of app) when loading
 export const selectIsLoading = (state) => state.employee.isLoading;
