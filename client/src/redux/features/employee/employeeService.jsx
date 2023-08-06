@@ -17,9 +17,16 @@ const getEmployees = async () => {
   return response.data;
 };
 
+// Delete an Employee
+const deleteEmployee = async (id) => {
+  const response = await axios.delete(API_URL + id);
+  return response.data;
+};
+
 const employeeService = {
   createEmployee,
   getEmployees,
+  deleteEmployee,
 };
 
 // Alternatively
