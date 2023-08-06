@@ -74,6 +74,25 @@ export const deleteEmployee = createAsyncThunk(
   }
 );
 
+// Get an Employee
+export const getEmployee = createAsyncThunk(
+  "employees/getEmployee",
+  async (id, thunkAPI) => {
+    try {
+      return await employeeService.getEmployee(id);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const employeeSlice = createSlice({
   name: "employee",
   initialState,
@@ -175,6 +194,24 @@ const employeeSlice = createSlice({
         toast.success("Employee deleted successfully");
       })
       .addCase(deleteEmployee.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        toast.error(action.payload);
+      })
+
+      // get single employee
+      .addCase(getEmployee.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getEmployee.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        // since viewing the product
+        state.product = action.payload;
+      })
+      .addCase(getEmployee.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
