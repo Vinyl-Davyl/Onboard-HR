@@ -6,7 +6,9 @@ import { BiCategory } from "react-icons/bi";
 import InfoBox from "../../infoBox/infoBox";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  CALC_OUTOFSERVICE,
   CALC_STORE_VALUE,
+  selectOutOfService,
   selectTotalEmployeeValue,
 } from "../../../redux/features/employee/employeeSlice";
 
@@ -24,10 +26,12 @@ export const formatNumbers = (x) => {
 const EmployeeSummary = ({ employees }) => {
   const dispatch = useDispatch();
   const totalStoreValue = useSelector(selectTotalEmployeeValue);
+  const outOfService = useSelector(selectOutOfService);
 
   // dispatching CALC_STORE_VALUE first, so access to totalStoreValue
   useEffect(() => {
     dispatch(CALC_STORE_VALUE(employees));
+    dispatch(CALC_OUTOFSERVICE(employees));
   }, [dispatch, employees]);
 
   return (
@@ -48,8 +52,8 @@ const EmployeeSummary = ({ employees }) => {
         />
         <InfoBox
           icon={outOfServiceIcon}
-          title={"Out of Stock"}
-          count={"0"}
+          title={"Out of Service"}
+          count={outOfService}
           bgColor="card3"
         />
         <InfoBox
