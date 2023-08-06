@@ -10,6 +10,9 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
+  totalEmployeeValue: 0,
+  outOfService: 0,
+  category: [],
 };
 
 // Create New Employeee
@@ -57,10 +60,50 @@ const employeeSlice = createSlice({
   initialState,
   reducers: {
     CALC_STORE_VALUE(state, action) {
-      console.log("store value");
+      const employees = action.payload;
+      const array = [];
+      employees.map((item) => {
+        const { salary, rating } = item;
+        const employeeValue = salary * rating;
+        // creating a new array and then returning the value of each employee
+        return array.push(employeeValue);
+      });
+      // totalValue
+      const totalValue = array.reduce((a, b) => {
+        return a + b;
+      }, 0);
+      state.totalEmployeeValue = totalValue;
+    },
+    CALC_OUTOFSERVICE(state, action) {
+      const employees = action.payload;
+      const array = [];
+      employees.map((item) => {
+        const { rating } = item;
+
+        return array.push(rating);
+      });
+      let count = 0;
+      array.forEach((number) => {
+        if (number === 0 || number === "0") {
+          count += 1;
+        }
+      }),
+        (state.outOfService = count);
+    },
+
+    CALC_CATEGORY(state, action) {
+      const employees = action.payload;
+      const array = [];
+      employees.map((item) => {
+        const { category } = item;
+
+        return array.push(category);
+      });
+      // look out for unique categories
+      const uniqueCategory = [...new Set(array)];
+      state.category = uniqueCategory;
     },
   },
-
   // storing responses from createAsyncThunk
   extraReducers: (builder) => {
     builder.addCase(createEmployee.pending, (state) => {
@@ -104,10 +147,17 @@ const employeeSlice = createSlice({
   },
 });
 
-export const { CALC_STORE_VALUE } = employeeSlice.actions;
+export const { CALC_STORE_VALUE, CALC_OUTOFSERVICE, CALC_CATEGORY } =
+  employeeSlice.actions;
 
 // exporting isLoading state to be used on addEmployee(& any part of app) when loading
-// export const selectIsLoading = (state) => state.employee.isLoading;
 export const selectIsLoading = (state) => state.employee.isLoading;
+
+export const selectTotalEmployeeValue = (state) =>
+  state.employee.totalEmployeeValue;
+
+export const selectOutOfService = (state) => state.employee.outOfService;
+
+export const selectCategory = (state) => state.employee.category;
 
 export default employeeSlice.reducer;

@@ -120,7 +120,6 @@ const EmployeeList = ({ employees, isLoading }) => {
                     </tr>
                   );
                 })}
-                ;
               </tbody>
             </table>
           )}
