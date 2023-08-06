@@ -165,16 +165,16 @@ const employeeSlice = createSlice({
       })
 
       // delete employees
-      .addCase(deleteEmployees.pending, (state) => {
+      .addCase(deleteEmployee.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteEmployees.fulfilled, (state, action) => {
+      .addCase(deleteEmployee.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
         toast.success("Employee deleted successfully");
       })
-      .addCase(deleteEmployees.rejected, (state, action) => {
+      .addCase(deleteEmployee.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
