@@ -10,6 +10,12 @@ import {
   selectFilteredEmployees,
 } from "../../../redux/features/employee/filterSlice";
 import ReactPaginate from "react-paginate";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import {
+  getEmployees,
+  deleteEmployee,
+} from "../../../redux/features/employee/employeeSlice";
 
 const EmployeeList = ({ employees, isLoading }) => {
   const [search, setSearch] = useState("");
@@ -23,6 +29,30 @@ const EmployeeList = ({ employees, isLoading }) => {
       return shortenedText;
     }
     return text;
+  };
+
+  // Using package to delete employee
+  const delEmployee = async (id) => {
+    await dispatch(deleteEmployee(id));
+    // after deleting, refresh page and get all employee
+    await dispatch(getEmployees());
+  };
+
+  const confirmDelete = (id) => {
+    confirmAlert({
+      title: "Delete Employee",
+      message: "Are you sure you want to delete this employee data?",
+      buttons: [
+        {
+          label: "Delete",
+          onClick: () => delEmployee(id),
+        },
+        {
+          label: "Cancel",
+          //onClick: () => alert("Click No"),
+        },
+      ],
+    });
   };
 
   // Paginate Intro
@@ -114,7 +144,11 @@ const EmployeeList = ({ employees, isLoading }) => {
                           <FaEdit size={20} color={"green"} />
                         </span>
                         <span>
-                          <FaTrashAlt size={20} color={"red"} />
+                          <FaTrashAlt
+                            size={20}
+                            color={"red"}
+                            onClick={() => confirmDelete(_id)}
+                          />
                         </span>
                       </td>
                     </tr>
