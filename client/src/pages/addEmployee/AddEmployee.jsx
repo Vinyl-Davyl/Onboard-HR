@@ -42,7 +42,7 @@ const AddEmployee = () => {
     setImagePreview(URL.createObjectURL(e.target.files[0]));
   };
 
-  // unique identifier-no SKU employee/employee/stock keeping unit
+  // unique identifier-no SKU product/employee/stock keeping unit
   const generateSKU = (category) => {
     // extract first 3 letter of category
     const letter = category.slice(0, 3).toUpperCase();
