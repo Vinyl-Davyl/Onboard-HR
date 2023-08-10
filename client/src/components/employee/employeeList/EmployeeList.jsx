@@ -16,6 +16,7 @@ import {
   getEmployees,
   deleteEmployee,
 } from "../../../redux/features/employee/employeeSlice";
+import { Link } from "react-router-dom";
 
 const EmployeeList = ({ employees, isLoading }) => {
   const [search, setSearch] = useState("");
@@ -138,7 +139,9 @@ const EmployeeList = ({ employees, isLoading }) => {
                       </td>
                       <td className="icons">
                         <span>
-                          <AiOutlineEye size={25} color={"purple"} />
+                          <Link to={`/employee-detail/${_id}`}>
+                            <AiOutlineEye size={25} color={"purple"} />
+                          </Link>
                         </span>
                         <span>
                           <FaEdit size={20} color={"green"} />
