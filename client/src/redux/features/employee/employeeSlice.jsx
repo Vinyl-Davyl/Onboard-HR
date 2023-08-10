@@ -208,8 +208,8 @@ const employeeSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
-        // since viewing the product
-        state.product = action.payload;
+        // since viewing the employee
+        state.employee = action.payload;
       })
       .addCase(getEmployee.rejected, (state, action) => {
         state.isLoading = false;
