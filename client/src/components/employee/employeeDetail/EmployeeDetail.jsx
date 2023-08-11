@@ -91,11 +91,19 @@ const EmployeeDetail = () => {
               }}
             ></div>
             <code className="--color-dark">
-              Onboarded at: {employee.createdAt.toLocaleString("en-US")}
+              {employee.createdAt && (
+                <span>
+                  Onboarded at: {employee.createdAt.toLocaleString("en-US")}
+                </span>
+              )}
             </code>
             <br />
             <code className="--color-dark">
-              Last updated: {employee.updatedAt.toLocaleString("en-US")}
+              {employee.updatedAt && (
+                <span>
+                  Last updated: {employee.updatedAt.toLocaleString("en-US")}
+                </span>
+              )}
             </code>
           </div>
         )}

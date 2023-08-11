@@ -264,6 +264,9 @@ export const { CALC_STORE_VALUE, CALC_OUTOFSERVICE, CALC_CATEGORY } =
 // exporting isLoading state to be used on addEmployee(& any part of app) when loading
 export const selectIsLoading = (state) => state.employee.isLoading;
 
+// could now be used anywhere on application
+export const selectEmployee = (state) => state.employee.employee;
+
 export const selectTotalEmployeeValue = (state) =>
   state.employee.totalEmployeeValue;
 
