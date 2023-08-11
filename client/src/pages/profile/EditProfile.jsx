@@ -5,6 +5,8 @@ import { selectUser } from "../../redux/features/authSlice";
 import Loader from "../../components/loader/Loader";
 import Card from "../../components/card/Card";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { updateUser } from "../../services/authService";
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -36,13 +38,65 @@ const EditProfile = () => {
   };
 
   const handleImageChange = (e) => {
-    setEmployeeImage(e.target.files[0]);
+    setProfileImage(e.target.files[0]);
     // access to preview file from employeeImg
     //   setImagePreview(URL.createObjectURL(e.target.files[0]));
   };
 
-  const saveProfile = (e) => {
+  const saveProfile = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    // save image to cloudinary on frontend(on image upload)
+    try {
+      // Handle Image Upload
+      let imageURL;
+      if (
+        profileImage &&
+        (profileImage.type === "image/jpeg" ||
+          profileImage.type === "image/jpg" ||
+          profileImage.type === "image/png")
+      ) {
+        const image = new FormData();
+        image.append("file", profileImage);
+        //add cloudinary properties(core importance)
+        image.append("cloud_name", "dnnkadysr");
+        // upload preset "gcwvleo7" from cloudinary on upload>>add new preset
+        image.append("upload_preset", "gcwvleo7");
+
+        //   First save image to cloudinary
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/dnnkadysr/image/upload",
+          { method: "post", body: image }
+        );
+        // imgData, would contain our img URL
+        const imgData = await response.json();
+        // Check if imgData.url is defined before calling toString()
+        if (imgData.url) {
+          imageURL = imgData.url.toString();
+          //console.log(imgData);
+        }
+        toast.success("Image uploaded");
+
+        // Save Profile
+        const formData = {
+          name: profile.name,
+          phone: profile.phone,
+          bio: profile.bio,
+          photo: profileImage ? imageURL : profile.photo,
+        };
+
+        // updateYser from auth service
+        const data = await updateUser(formData);
+        console.log(data);
+        toast.success("User updated");
+        navigate("/profile");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -68,7 +122,7 @@ const EditProfile = () => {
               <label>Email:</label>
               <input type="text" name="email" value={profile?.email} disabled />
               <br />
-              <code>Email cannot be changed</code>
+              <code>Email cannot be changed.</code>
             </p>
             <p>
               <label>Phone:</label>
@@ -99,6 +153,7 @@ const EditProfile = () => {
           </span>
         </form>
       </Card>
+      <br />
     </div>
   );
 };
