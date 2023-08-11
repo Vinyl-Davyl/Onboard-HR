@@ -18,6 +18,7 @@ import { SET_LOGIN } from "./redux/features/authSlice";
 import AddEmployee from "./pages/addEmployee/AddEmployee";
 import EmployeeDetail from "./components/employee/employeeDetail/employeeDetail";
 import EditEmployee from "./pages/editEmployee/EditEmployee";
+import Profile from "./pages/profile/Profile";
 
 // enable save credentials accross entire app when making requests, skip adding const response = axios.get(``, userData, {withCredentials: true})
 axios.defaults.withCredentials = true;
@@ -79,6 +80,16 @@ function App() {
             <Sidebar>
               <Layout>
                 <EditEmployee />
+              </Layout>
+            </Sidebar>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <Sidebar>
+              <Layout>
+                <Profile />
               </Layout>
             </Sidebar>
           }
