@@ -29,10 +29,17 @@ const getEmployee = async (id) => {
   return response.data;
 };
 
+// Update Employee
+const updateEmployee = async (id, formData) => {
+  const response = await axios.patch(`${API_URL}${id}`, formData);
+  return response.data;
+};
+
 const employeeService = {
   createEmployee,
   getEmployees,
   getEmployee,
+  updateEmployee,
   deleteEmployee,
 };
 

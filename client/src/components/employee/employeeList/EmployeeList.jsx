@@ -144,7 +144,9 @@ const EmployeeList = ({ employees, isLoading }) => {
                           </Link>
                         </span>
                         <span>
-                          <FaEdit size={20} color={"green"} />
+                          <Link to={`/edit-employee/${_id}`}>
+                            <FaEdit size={20} color={"green"} />
+                          </Link>
                         </span>
                         <span>
                           <FaTrashAlt
