@@ -19,6 +19,7 @@ import AddEmployee from "./pages/addEmployee/AddEmployee";
 import EmployeeDetail from "./components/employee/employeeDetail/employeeDetail";
 import EditEmployee from "./pages/editEmployee/EditEmployee";
 import Profile from "./pages/profile/Profile";
+import EditProfile from "./pages/profile/EditProfile";
 
 // enable save credentials accross entire app when making requests, skip adding const response = axios.get(``, userData, {withCredentials: true})
 axios.defaults.withCredentials = true;
@@ -90,6 +91,16 @@ function App() {
             <Sidebar>
               <Layout>
                 <Profile />
+              </Layout>
+            </Sidebar>
+          }
+        />
+        <Route
+          path="/edit-profile"
+          element={
+            <Sidebar>
+              <Layout>
+                <EditProfile />
               </Layout>
             </Sidebar>
           }
