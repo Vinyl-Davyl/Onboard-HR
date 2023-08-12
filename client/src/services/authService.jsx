@@ -117,20 +117,20 @@ export const updateUser = async (formData) => {
   }
 };
 
-// Change Profile
-export const changePassword = async (formData) => {
-  try {
-    const response = await axios.patch(
-      `${BACKEND_URL}/api/users/changepassword`,
-      formData
-    );
-    return response.data;
-  } catch (error) {
-    // gets all possible error scenerio
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    toast.error(message);
-  }
-};
+// Change Password
+// export const changePassword = async (formData) => {
+//   try {
+//     const response = await axios.patch(
+//       `${BACKEND_URL}/api/users/changepassword`,
+//       formData
+//     );
+//     return response.data;
+//   } catch (error) {
+//     // gets all possible error scenerio
+//     const message =
+//       (error.response && error.response.data && error.response.data.message) ||
+//       error.message ||
+//       error.toString();
+//     toast.error(message);
+//   }
+// };
