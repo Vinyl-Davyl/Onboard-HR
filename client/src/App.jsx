@@ -20,6 +20,7 @@ import EmployeeDetail from "./components/employee/employeeDetail/employeeDetail"
 import EditEmployee from "./pages/editEmployee/EditEmployee";
 import Profile from "./pages/profile/Profile";
 import EditProfile from "./pages/profile/EditProfile";
+import Contact from "./pages/contact/Contact";
 
 // enable save credentials accross entire app when making requests, skip adding const response = axios.get(``, userData, {withCredentials: true})
 axios.defaults.withCredentials = true;
@@ -101,6 +102,16 @@ function App() {
             <Sidebar>
               <Layout>
                 <EditProfile />
+              </Layout>
+            </Sidebar>
+          }
+        />
+        <Route
+          path="/contact-us"
+          element={
+            <Sidebar>
+              <Layout>
+                <Contact />
               </Layout>
             </Sidebar>
           }
