@@ -75,23 +75,22 @@ const EditProfile = () => {
           imageURL = imgData.url.toString();
           //console.log(imgData);
         }
-        toast.success("Image uploaded");
-
-        // Save Profile
-        const formData = {
-          name: profile.name,
-          phone: profile.phone,
-          bio: profile.bio,
-          photo: profileImage ? imageURL : profile.photo,
-        };
-
-        // updateYser from auth service
-        const data = await updateUser(formData);
-        console.log(data);
-        toast.success("User updated");
-        navigate("/profile");
-        setIsLoading(false);
       }
+
+      // Save Profile
+      const formData = {
+        name: profile.name,
+        phone: profile.phone,
+        bio: profile.bio,
+        photo: profileImage ? imageURL : profile.photo,
+      };
+
+      // updateYser from auth service
+      const data = await updateUser(formData);
+      console.log(data);
+      toast.success("User updated");
+      navigate("/profile");
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
       setIsLoading(false);
